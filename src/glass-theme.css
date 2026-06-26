@@ -1,0 +1,333 @@
+/* ============================================================
+   Glass UI — 半透明玻璃风主题 for Element Plus
+   风格:透明模糊打底 · 近单色 · 细线 · 大留白 · 全直角
+   用法:在 element-plus 的 css 之后导入本文件即可。
+   ============================================================ */
+
+/* ---------- 1. 全局 token:用 CSS 变量覆盖 Element Plus ---------- */
+html.dark,
+:root {
+  /* 强调色:亮青(激活/选中/进度/勾选 都用它) */
+  --el-color-primary:            #3DB4E5;
+  --el-color-primary-light-3:    #62c2ea;
+  --el-color-primary-light-5:    #88d0ef;
+  --el-color-primary-light-7:    rgba(61, 180, 229, .30);
+  --el-color-primary-light-8:    rgba(61, 180, 229, .20);
+  --el-color-primary-light-9:    rgba(61, 180, 229, .12);
+  --el-color-primary-dark-2:     #2f9ac7;
+
+  /* 语义色:去饱和压暗版(能区分状态但不抢眼,贴冷峻感) */
+  --el-color-success:            #6f8a67;
+  --el-color-success-light-3:    #5f785a;  --el-color-success-light-5: #50654c;
+  --el-color-success-light-7:    rgba(111,138,103,.30);
+  --el-color-success-light-8:    rgba(111,138,103,.20);
+  --el-color-success-light-9:    rgba(111,138,103,.12);
+  --el-color-success-dark-2:     #82a079;
+
+  --el-color-warning:            #a8925c;
+  --el-color-warning-light-3:    #91804f;  --el-color-warning-light-5: #786a44;
+  --el-color-warning-light-7:    rgba(168,146,92,.30);
+  --el-color-warning-light-8:    rgba(168,146,92,.20);
+  --el-color-warning-light-9:    rgba(168,146,92,.12);
+  --el-color-warning-dark-2:     #bca674;
+
+  --el-color-danger:             #a86a60;  --el-color-error: #a86a60;
+  --el-color-danger-light-3:     #915a52;  --el-color-danger-light-5: #774b44;
+  --el-color-danger-light-7:     rgba(168,106,96,.30);
+  --el-color-danger-light-8:     rgba(168,106,96,.20);
+  --el-color-danger-light-9:     rgba(168,106,96,.12);
+  --el-color-danger-dark-2:      #bd8079;
+  --el-color-error-light-3:      #915a52;  --el-color-error-light-5: #774b44;
+  --el-color-error-light-7:      rgba(168,106,96,.30);
+  --el-color-error-light-8:      rgba(168,106,96,.20);
+  --el-color-error-light-9:      rgba(168,106,96,.12);
+  --el-color-error-dark-2:       #bd8079;
+
+  --el-color-info:               #868c94;
+  --el-color-info-light-3:       #737983;  --el-color-info-light-5: #5f646c;
+  --el-color-info-light-7:       rgba(134,140,148,.30);
+  --el-color-info-light-8:       rgba(134,140,148,.20);
+  --el-color-info-light-9:       rgba(134,140,148,.12);
+  --el-color-info-dark-2:        #9aa0a8;
+
+  /* 评分星:低饱和暖金,不刺眼 */
+  --el-rate-fill-color:          #bfa86a;
+  --el-rate-text-color:          var(--el-text-color-secondary);
+
+  /* 文字:近纯白(冷调) + 分级 */
+  --el-text-color-primary:       #FEFFFF;
+  --el-text-color-regular:       rgba(255, 255, 255, .82);
+  --el-text-color-secondary:     rgba(255, 255, 255, .55);
+  --el-text-color-placeholder:   rgba(255, 255, 255, .35);
+  --el-text-color-disabled:      rgba(255, 255, 255, .25);
+
+  /* 背景:半透明中性深色蒙层(玻璃的关键),做得很淡让明亮背景透出 */
+  --el-bg-color:                 rgba(22, 24, 28, .22);
+  --el-bg-color-page:            transparent;
+  --el-bg-color-overlay:         rgba(26, 28, 32, .55);
+  --el-mask-color:               rgba(15, 16, 18, .40);
+
+  /* 边框 / 分隔线:极细浅色 */
+  --el-border-color:             rgba(255, 255, 255, .14);
+  --el-border-color-light:       rgba(255, 255, 255, .10);
+  --el-border-color-lighter:     rgba(255, 255, 255, .08);
+  --el-border-color-extra-light: rgba(255, 255, 255, .06);
+  --el-border-color-dark:        rgba(255, 255, 255, .18);
+  --el-border-color-hover:       rgba(255, 255, 255, .30);
+
+  /* 填充(hover 底色等):极淡白 */
+  --el-fill-color:               rgba(255, 255, 255, .05);
+  --el-fill-color-light:         rgba(255, 255, 255, .04);
+  --el-fill-color-lighter:       rgba(255, 255, 255, .03);
+  --el-fill-color-blank:         transparent;
+  --el-fill-color-dark:          rgba(255, 255, 255, .08);
+  --el-fill-color-darker:        rgba(255, 255, 255, .10);
+
+  /* 硬朗直角:圆角全部收到接近 0 */
+  --el-border-radius-base:       2px;
+  --el-border-radius-small:      2px;
+  --el-border-radius-round:      2px;
+
+  --el-box-shadow:               0 8px 30px rgba(0,0,0,.35);
+  --el-box-shadow-light:         0 4px 18px rgba(0,0,0,.28);
+}
+
+/* ---------- 2. 页面基础 ----------
+   说明:玻璃主题需要"背后有内容"才出效果,背景由使用者/页面提供
+   (本仓库演示页用一个固定背景层 .bg-layer 来提供并支持切换)。 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--el-text-color-primary);
+  font-family: "Barlow Semi Condensed", "Noto Sans SC", system-ui, sans-serif;
+  /* 亮背景上白字加极淡阴影增强可读性 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+/* ============================================================
+   3. 容器类:实色背景 → 半透明 + backdrop-filter(玻璃命门)
+   ============================================================ */
+.el-card {
+  background: var(--el-bg-color);
+  backdrop-filter: blur(20px) saturate(115%);
+  -webkit-backdrop-filter: blur(20px) saturate(115%);
+  border: 1px solid var(--el-border-color-lighter);
+  box-shadow: none;
+}
+.el-card__header { border-bottom: 1px solid var(--el-border-color-lighter); }
+
+/* 弹窗 / 抽屉 / 消息框 */
+.el-dialog,
+.el-drawer,
+.el-message-box {
+  background: var(--el-bg-color-overlay);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border: 1px solid var(--el-border-color-light);
+}
+
+/* 浮层只由外壳 .el-popper 提供唯一一层玻璃(气泡/下拉/选择/日期/级联…) */
+.el-popper,
+.el-popover.el-popper {
+  background: var(--el-bg-color-overlay) !important;
+  backdrop-filter: blur(22px) saturate(120%);
+  -webkit-backdrop-filter: blur(22px) saturate(120%);
+  border: 1px solid var(--el-border-color-light) !important;
+}
+.el-popper__arrow::before { background: var(--el-bg-color-overlay) !important; }
+
+/* 所有内层面板透明,避免与外壳叠加变深 → 各弹层颜色统一为单层玻璃 */
+.el-select-dropdown,
+.el-select-dropdown__wrap,
+.el-dropdown-menu,
+.el-picker-panel,
+.el-picker-panel__body-wrapper,
+.el-picker-panel__body,
+.el-picker-panel__footer,
+.el-date-picker,
+.el-time-panel,
+.el-time-panel__content,
+.el-time-spinner,
+.el-cascader-menu,
+.el-cascader-menu__wrap,
+.el-autocomplete-suggestion,
+.el-tree {
+  background: transparent !important;
+  border-color: var(--el-border-color-lighter) !important;
+}
+.el-select-dropdown,
+.el-dropdown-menu,
+.el-picker-panel,
+.el-time-panel,
+.el-cascader-menu { border: none !important; }
+
+/* Tooltip(深色浮层)例外:保持近不透明深色,不走玻璃 */
+.el-popper.is-dark {
+  background: rgba(18, 19, 22, .92) !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: none !important;
+  color: #efece8;
+}
+.el-popper.is-dark .el-popper__arrow::before { background: rgba(18, 19, 22, .92) !important; }
+
+/* 消息 Message / 通知 Notification:玻璃化 */
+.el-message,
+.el-notification {
+  background: var(--el-bg-color-overlay);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid var(--el-border-color-light);
+}
+.el-message .el-message__content { color: var(--el-text-color-primary); }
+.el-notification__title { color: var(--el-text-color-primary); }
+.el-notification__content { color: var(--el-text-color-regular); }
+
+/* ============================================================
+   4. 表单控件:透明玻璃 + 细边
+   ============================================================ */
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  background: rgba(255, 255, 255, .05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 0 0 1px var(--el-border-color) inset;
+  border-radius: var(--el-border-radius-base);
+}
+.el-input__wrapper.is-focus,
+.el-select__wrapper.is-focused {
+  box-shadow: 0 0 0 1px var(--el-border-color-hover) inset !important;
+}
+/* 数字输入框加减按钮 */
+.el-input-number__decrease,
+.el-input-number__increase {
+  background: rgba(255, 255, 255, .05);
+  color: var(--el-text-color-regular);
+  border-color: var(--el-border-color-light);
+}
+
+/* ============================================================
+   5. 表格:透明、细线、表头略深
+   ============================================================ */
+.el-table,
+.el-table tr,
+.el-table th.el-table__cell,
+.el-table td.el-table__cell { background: transparent; }
+.el-table { --el-table-border-color: var(--el-border-color-lighter); }
+.el-table th.el-table__cell { background: rgba(255, 255, 255, .04); }
+.el-table__inner-wrapper::before { background: var(--el-border-color-lighter); }
+.el-table__body tr:hover > td.el-table__cell { background: rgba(255, 255, 255, .05) !important; }
+
+/* ============================================================
+   6. 按钮:默认透明描边大写,主按钮浅色实底深字
+   ============================================================ */
+.el-button {
+  letter-spacing: 1px;
+  font-weight: 500;
+  border-radius: var(--el-border-radius-base);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--el-border-color);
+  color: var(--el-text-color-primary);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: background .18s, border-color .18s, color .18s;
+}
+.el-button:hover,
+.el-button:focus {
+  background: rgba(255, 255, 255, .12);
+  border-color: var(--el-border-color-hover);
+  color: #fff;
+}
+/* 主按钮:半透明青底 + 青字 + 青边(对应 激活高亮块) */
+.el-button--primary {
+  background: var(--el-color-primary-light-8);
+  border-color: var(--el-color-primary);
+  color: var(--el-color-primary-light-3);
+}
+.el-button--primary:hover,
+.el-button--primary:focus {
+  background: var(--el-color-primary-light-7);
+  border-color: var(--el-color-primary-light-3);
+  color: #d6f1fc;
+}
+/* 语义按钮:半透明同色底 + 同色边 + 提亮文字(与 Tag/语义色统一,恢复状态区分) */
+.el-button--success { background: var(--el-color-success-light-8); border-color: var(--el-color-success); color: #93b489; }
+.el-button--success:hover, .el-button--success:focus { background: var(--el-color-success-light-7); border-color: var(--el-color-success-dark-2); color: #aecaa4; }
+.el-button--warning { background: var(--el-color-warning-light-8); border-color: var(--el-color-warning); color: #cfb67d; }
+.el-button--warning:hover, .el-button--warning:focus { background: var(--el-color-warning-light-7); border-color: var(--el-color-warning-dark-2); color: #e0ca98; }
+.el-button--danger  { background: var(--el-color-danger-light-8);  border-color: var(--el-color-danger);  color: #cd8e84; }
+.el-button--danger:hover, .el-button--danger:focus  { background: var(--el-color-danger-light-7);  border-color: var(--el-color-danger-dark-2);  color: #dda89f; }
+.el-button--info    { background: var(--el-color-info-light-8);    border-color: var(--el-color-info);    color: #a6acb4; }
+.el-button--info:hover, .el-button--info:focus    { background: var(--el-color-info-light-7);    border-color: var(--el-color-info-dark-2);    color: #c2c7cd; }
+/* 文字 / 链接按钮:去底 */
+.el-button.is-text,
+.el-button.is-link {
+  background: transparent; border-color: transparent;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  color: var(--el-text-color-secondary);
+}
+.el-button.is-text:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.el-button.is-link:hover { color: #fff; }
+
+/* ============================================================
+   7. 导航:菜单、标签页、分页、步骤条、面包屑
+   ============================================================ */
+/* 水平菜单:透明 + 激活下划线 */
+.el-menu {
+  background: transparent;
+  border-bottom: 1px solid var(--el-border-color-lighter) !important;
+  --el-menu-bg-color: transparent;
+  --el-menu-text-color: var(--el-text-color-secondary);
+  --el-menu-active-color: var(--el-text-color-primary);
+  --el-menu-hover-bg-color: rgba(255, 255, 255, .05);
+}
+.el-menu--horizontal > .el-menu-item.is-active { border-bottom-color: var(--el-color-primary); }
+
+/* 标签页:激活项青色下划线 + 青字(激活强调) */
+.el-tabs__active-bar { background-color: var(--el-color-primary); height: 2px; }
+.el-tabs__nav-wrap::after { background-color: var(--el-border-color-lighter); height: 1px; }
+.el-tabs__item.is-active { color: var(--el-color-primary); }
+.el-tabs__item { color: var(--el-text-color-secondary); }
+
+/* 分页:透明按钮 */
+.el-pagination {
+  --el-pagination-bg-color: transparent;
+  --el-pagination-button-color: var(--el-text-color-regular);
+  --el-pagination-hover-color: var(--el-text-color-primary);
+}
+.el-pager li,
+.el-pagination button { background: transparent !important; }
+.el-pager li.is-active { color: var(--el-color-primary); font-weight: 600; }
+
+/* 进度条:轨道压暗、文字提亮、环形路径跟随主题色(默认是蓝色) */
+.el-progress-bar__outer { background: rgba(255, 255, 255, .10); }
+.el-progress__text { color: var(--el-text-color-primary) !important; }
+.el-progress:not(.is-success):not(.is-warning):not(.is-exception) .el-progress-bar__inner { background-color: var(--el-color-primary); }
+.el-progress:not(.is-success):not(.is-warning):not(.is-exception) .el-progress-circle__path { stroke: var(--el-color-primary); }
+
+/* ============================================================
+   8. 其他:折叠、警告、头像、滚动条
+   ============================================================ */
+/* 折叠面板:透明 */
+.el-collapse,
+.el-collapse-item__header,
+.el-collapse-item__wrap { background: transparent; border-color: var(--el-border-color-lighter); }
+.el-collapse { border-top: none; border-bottom: none; }
+.el-collapse-item__content { color: var(--el-text-color-regular); }
+
+/* 警告:统一玻璃化(去掉各类型实色块) */
+.el-alert {
+  background: rgba(255, 255, 255, .05);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--el-border-color-lighter);
+}
+
+/* 头像 */
+.el-avatar { background: rgba(255, 255, 255, .12); color: var(--el-text-color-primary); }
+
+/* 滚动条细化 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .18); border-radius: 0; }
+::-webkit-scrollbar-track { background: transparent; }

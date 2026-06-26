@@ -1,0 +1,19 @@
+# 依赖与构建产物
+node_modules
+dist
+*.local
+
+# 系统/编辑器
+.DS_Store
+.idea
+.vscode
+
+# 本地工具配置
+.claude
+
+# 参考截图(外部素材,不纳入仓库)
+img/
+
+# 临时截图
+shot.png
+gallery.png
