@@ -1,29 +1,59 @@
 {
   "name": "glass-ui-theme",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A translucent glassmorphism theme for Element Plus — sharp, near-monochrome, blur-driven.",
   "type": "module",
   "license": "MIT",
+  "author": "harvey",
+  "homepage": "https://github.com/HarveyYa/glass-ui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarveyYa/glass-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HarveyYa/glass-ui/issues"
+  },
   "keywords": [
     "element-plus",
     "theme",
     "glassmorphism",
+    "glass",
     "vue",
     "ui",
     "dark"
   ],
+  "main": "dist/glass-ui.css",
+  "style": "dist/glass-ui.css",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./dist/glass-ui.css",
+    "./min": "./dist/glass-ui.min.css",
+    "./css": "./dist/glass-ui.css",
+    "./source": "./src/glass-theme.css"
+  },
+  "files": [
+    "dist",
+    "src/glass-theme.css"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "node scripts/build-css.js",
+    "build:demo": "vite build",
+    "prepublishOnly": "npm run build"
   },
-  "dependencies": {
-    "@element-plus/icons-vue": "^2.3.2",
-    "element-plus": "^2.7.0",
-    "vue": "^3.4.0"
+  "peerDependencies": {
+    "element-plus": ">=2.7.0",
+    "vue": ">=3.3.0"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "@vitejs/plugin-vue": "^5.0.0",
-    "vite": "^5.2.0"
+    "element-plus": "^2.7.0",
+    "esbuild": "^0.21.5",
+    "vite": "^5.2.0",
+    "vue": "^3.4.0"
   },
   "allowScripts": {
     "esbuild@0.21.5": true

@@ -16,8 +16,7 @@ UI 本身近乎单色，组件半透明并透出背景模糊，**色调随背景
 ## 安装
 
 ```bash
-npm install element-plus
-# 然后把本仓库的 src/glass-theme.css 引入你的项目
+npm install glass-ui-theme element-plus
 ```
 
 ## 用法
@@ -30,7 +29,8 @@ import ElementPlus from 'element-plus'
 
 import 'element-plus/dist/index.css'                  // 1) EP 基础样式
 import 'element-plus/theme-chalk/dark/css-vars.css'   // 2) 暗色变量打底
-import './glass-theme.css'                            // 3) Glass UI 玻璃主题（放最后）
+import 'glass-ui-theme'                               // 3) Glass UI 玻璃主题（放最后）
+// 压缩版:import 'glass-ui-theme/min'
 
 import App from './App.vue'
 createApp(App).use(ElementPlus).mount('#app')
