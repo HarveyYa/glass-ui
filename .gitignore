@@ -17,3 +17,6 @@ img/
 # 临时截图
 shot.png
 gallery.png
+
+# 演示 app 构建产物
+demo-dist
